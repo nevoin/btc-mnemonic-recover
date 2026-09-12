@@ -12,10 +12,10 @@ Windows, C, OpenSSL + libsecp256k1. Offline. CPU only.
 
 Ryzen 9 3950X, 24 threads, `-ch 1000`, `-mode seq`, BIP84, 12-word template:
 
-| Metric                      | Value          |
-|-----------------------------|----------------|
-| Raw candidate rate          | ~200,000 H/s   |
-| Effective derivation rate   | ~12,500 addr/s |
+| Metric                    | Value        |
+|---------------------------|--------------|
+| Raw candidate rate        | ~200,000 H/s |
+| Effective derivation rate | ~12,500 addr/s |
 
 Raw rate is measured before the checksum prefilter. The prefilter rejects ~93.75% of candidates for 12-word phrases (~99.6% for 24-word) before PBKDF2 / BIP32 / secp256k1.
 
@@ -26,18 +26,16 @@ Raw rate is measured before the checksum prefilter. The prefilter rejects ~93.75
 - Windows
 - OpenSSL (libcrypto)
 - libsecp256k1
-- MSVC or MinGW-w64
+- GCC (MSYS2 / MinGW-w64)
 
 ---
 
 ## Build
 
-MSVC:
+MSYS2 (UCRT64 shell):
 
-```bat
-cl /O2 /W3 seedfinder.c ^
-   /I C:\deps\openssl\include ^
-   /I C:\deps\secp256k1\include ^
-   /link /LIBPATH:C:\deps\openssl\lib ^
-         /LIBPATH:C:\deps\secp256k1\lib ^
-         libcrypto.lib libsecp256k1.lib
+```bash
+pacman -S --needed \
+  mingw-w64-ucrt-x86_64-gcc \
+  mingw-w64-ucrt-x86_64-openssl \
+  make git
